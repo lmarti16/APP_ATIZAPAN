@@ -14,7 +14,10 @@ suppressPackageStartupMessages({
 })
 
 sf::sf_use_s2(FALSE)
-GOOGLE_API_KEY <- "AIzaSyC4IV3RTxKKLoKDsJsgPR-V-E-2-etW9IY"
+
+# ──Credenciales ─────────────────────────────────────
+# Credenciales se leen automáticamente de .Renviron:
+#   AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY, AWS_DEFAULT_REGION, GOOGLE_API_KEY, OPENAI_API_KEY
 
 # ==========================================================
 # HELPERS GENERALES

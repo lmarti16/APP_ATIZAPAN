@@ -445,7 +445,7 @@ elex[, label      := paste0(year," \u00b7 ",office_lbl)]
 elex[, office_ord := fifelse(office == "AYU",1L,2L)]
 setorder(elex, year, office_ord)
 
-ELECTION_CHOICES <- setNames(elex$key, elex$label)
+ELECTION_CHOICES <- as.list(setNames(elex$key, elex$label))
 DEFAULT_ELECTION <- {
   if ("AYU_24" %in% elex$key) "AYU_24"
   else if (any(elex$office == "AYU")) elex[office == "AYU"][.N, key]
@@ -678,10 +678,10 @@ ELECTORADO_CATALOG <- list(
   "Adultos mayores (%)" = list(col="PCT_LISTA_ADULTOS_MAYORES",tipo="pct",color="#9B1B72")
 )
 ELECTORADO_AVAILABLE <- Filter(function(x) x$col %in% names(sf_all), ELECTORADO_CATALOG)
-ELECTORADO_CHOICES   <- setNames(
+ELECTORADO_CHOICES   <- as.list(setNames(
   vapply(ELECTORADO_AVAILABLE, `[[`, character(1), "col"),
   names(ELECTORADO_AVAILABLE)
-)
+))
 
 # ==========================================================
 # MAP HELPERS
@@ -1575,13 +1575,13 @@ ui_base <- bslib::page_fillable(
               conditionalPanel(
                 condition = "!input.map_variable",
                 selectInput("map_view", "Vista",
-                            choices=c("Ganador"="winner","Participaci\u00f3n (%)"="part",
+                            choices=list("Ganador"="winner","Participaci\u00f3n (%)"="part",
                                       "Total votos"="tot","Lista nominal"="ln","Electorado"="electorado"),
                             selected="winner"),
                 conditionalPanel(
                   condition = "input.map_view == 'winner'",
                   radioButtons("winner_vote_type","Tipo de voto",
-                               choices=c("DISTRIBUIDO"="DISTRIBUIDO","PURO"="PURO","CANDIDATURAS"="CAND"),
+                               choices=list("DISTRIBUIDO"="DISTRIBUIDO","PURO"="PURO","CANDIDATURAS"="CAND"),
                                selected="DISTRIBUIDO", inline=TRUE)
                 ),
                 conditionalPanel(
@@ -1590,7 +1590,7 @@ ui_base <- bslib::page_fillable(
                               choices=ELECTORADO_CHOICES,
                               selected=ELECTORADO_CHOICES[["Lista nominal"]] %||% ELECTORADO_CHOICES[[1L]]),
                   radioButtons("electorado_scale","Escala",
-                               choices=c("Lineal"="linear","Cuantiles"="quantile"),
+                               choices=list("Lineal"="linear","Cuantiles"="quantile"),
                                selected="linear", inline=TRUE),
                   sliderInput("electorado_opacity","Opacidad",min=0.20,max=0.90,value=0.70,step=0.05)
                 )
@@ -1599,14 +1599,14 @@ ui_base <- bslib::page_fillable(
               conditionalPanel(
                 condition = "input.map_variable",
                 radioButtons("choro_vote_type","Votos (choropleth)",
-                             choices=c("DISTRIBUIDO"="DISTRIBUIDO","PURO"="PURO"),
+                             choices=list("DISTRIBUIDO"="DISTRIBUIDO","PURO"="PURO"),
                              selected="DISTRIBUIDO", inline=TRUE),
                 uiOutput("ui_choro_party"),
                 radioButtons("choro_metric","M\u00e9trica",
-                             choices=c("Votos"="votes","% (sobre v\u00e1lidos)"="pct"),
+                             choices=list("Votos"="votes","% (sobre v\u00e1lidos)"="pct"),
                              selected="pct", inline=TRUE),
                 radioButtons("choro_scale","Escala",
-                             choices=c("Lineal"="linear","Cuantiles"="quantile"),
+                             choices=list("Lineal"="linear","Cuantiles"="quantile"),
                              selected="linear", inline=TRUE),
                 sliderInput("choro_opacity","Opacidad",min=0.20,max=0.90,value=0.65,step=0.05)
               )
@@ -1676,7 +1676,7 @@ ui_base <- bslib::page_fillable(
                     div(class="card-hd-right",
                         div(class="seg-control",
                             radioButtons("table_view",NULL,
-                                         choices=c("DISTRIBUIDO"="DISTRIBUIDO","PURO"="PURO","CAND"="CAND"),
+                                         choices=list("DISTRIBUIDO"="DISTRIBUIDO","PURO"="PURO","CAND"="CAND"),
                                          selected="DISTRIBUIDO", inline=TRUE)
                         )
                     )
@@ -1701,13 +1701,13 @@ ui_base <- bslib::page_fillable(
                       )
                   ),
                   radioButtons("ts_office","Serie",
-                               choices=c("Solo AYU"="AYU","Solo DL"="DL","AYU + DL"="BOTH"),
+                               choices=list("Solo AYU"="AYU","Solo DL"="DL","AYU + DL"="BOTH"),
                                selected="BOTH", inline=TRUE),
                   radioButtons("ts_vote_type","Votos para partidos",
-                               choices=c("DISTRIBUIDO"="DISTRIBUIDO","PURO"="PURO"),
+                               choices=list("DISTRIBUIDO"="DISTRIBUIDO","PURO"="PURO"),
                                selected="DISTRIBUIDO", inline=TRUE),
                   radioButtons("ts_party_metric","M\u00e9trica partidos",
-                               choices=c("Votos"="votes","% (sobre v\u00e1lidos)"="pct"),
+                               choices=list("Votos"="votes","% (sobre v\u00e1lidos)"="pct"),
                                selected="pct", inline=TRUE),
                   selectizeInput("ts_parties","Partidos a mostrar (vac\u00edo = Top N)",
                                  choices=NULL, multiple=TRUE,
@@ -1721,18 +1721,18 @@ ui_base <- bslib::page_fillable(
                   selectInput("ts_map_election","Elecci\u00f3n (base)",
                               choices=ELECTION_CHOICES, selected=head(elex$key,1L) %||% DEFAULT_ELECTION),
                   radioButtons("ts_map_view","Vista (mapa)",
-                               choices=c("Participaci\u00f3n (pp)"="participacion","Lista nominal"="lista",
+                               choices=list("Participaci\u00f3n (pp)"="participacion","Lista nominal"="lista",
                                          "Total votos"="mas_votantes","Choropleth (Partido)"="choro_party"),
                                selected="choro_party", inline=TRUE),
                   radioButtons("ts_delta_scale","Escala (\u0394)",
-                               choices=c("Lineal"="linear","Cuantiles"="quantile"),
+                               choices=list("Lineal"="linear","Cuantiles"="quantile"),
                                selected="linear", inline=TRUE),
                   sliderInput("ts_map_opacity","Opacidad",min=0.20,max=0.90,value=0.70,step=0.05),
                   conditionalPanel(
                     condition = "input.ts_map_view == 'choro_party'",
                     uiOutput("ui_ts_choro_party"),
                     radioButtons("ts_choro_metric","M\u00e9trica (partido)",
-                                 choices=c("Votos (\u0394)"="votes","% v\u00e1lidos (pp)"="pct"),
+                                 choices=list("Votos (\u0394)"="votes","% v\u00e1lidos (pp)"="pct"),
                                  selected="votes", inline=TRUE)
                   ),
                   div(style="height:8px;"),
@@ -1776,7 +1776,7 @@ ui_base <- bslib::page_fillable(
                       ),
                       div(class="card-hd-right",
                           checkboxGroupInput("ts_metrics",NULL,
-                                             choices=c("Votos"="total","LN"="lista",
+                                             choices=list("Votos"="total","LN"="lista",
                                                        "Casillas"="casillas","V\u00e1lidos"="validos","Nulos"="nulos"),
                                              selected=c("total","lista"), inline=TRUE)
                       )
@@ -1817,7 +1817,7 @@ ui_base <- bslib::page_fillable(
                   div(class="smallHelp",style="font-weight:700;margin-bottom:6px;","Modo de optimizaci\u00f3n"),
                   div(class="seg-control",
                       radioButtons("buf_mode", NULL,
-                                   choices=c("\U0001F3C6 Electoral"="electoral",
+                                   choices=list("\U0001F3C6 Electoral"="electoral",
                                              "\U0001F4CA Poblaci\u00f3n"="inegi",
                                              "\U0001F4F1 Generacional"="gen"),
                                    selected="electoral", inline=TRUE)
@@ -2169,11 +2169,6 @@ server <- function(input, output, session) {
     validate(need(length(parties)>0L,"Sin partidos disponibles"))
     sel <- (input$choro_party %||% parties[1L])[1L]
     if (!(sel %in% parties)) sel <- parties[1L]
-    # Dropdown con logos
-    choices_html <- setNames(parties, vapply(parties, function(p) {
-      logo <- party_logo_inline(p, "14px")
-      paste0(logo, p)
-    }, character(1)))
     selectizeInput("choro_party","Partido",
                    choices=as.list(setNames(parties, parties)),
                    selected=sel)
@@ -2631,7 +2626,7 @@ server <- function(input, output, session) {
     out <- sort(unique(setdiff(out,"OTROS")))
     validate(need(length(out)>0L,"Sin partidos"))
     def <- if ("PRI" %in% out) "PRI" else out[1L]
-    selectInput("ts_choro_party","Partido",choices=out,selected=def)
+    selectInput("ts_choro_party","Partido",choices=as.list(setNames(out,out)),selected=def)
   })
 
   ts_party_series <- reactive({
@@ -2945,11 +2940,6 @@ server <- function(input, output, session) {
     parties <- sort(unique(setdiff(names(tot)[is.finite(tot)&tot>0],"OTROS")))
     validate(need(length(parties)>0L,"Sin partidos disponibles"))
     def <- if ("PRI" %in% parties) "PRI" else parties[1L]
-    # Selector con logos en los labels
-    ch_labels <- vapply(parties,function(p) {
-      logo <- party_logo_inline(p,"14px")
-      paste0(logo,p)
-    },character(1))
     selectizeInput("buf_party","Partido objetivo",choices=as.list(setNames(parties,parties)),selected=def)
   })
 
@@ -2959,11 +2949,11 @@ server <- function(input, output, session) {
     if (NROW(TRADUCTOR)>0L && !is.null(input$buf_eje) && nzchar(input$buf_eje)) {
       d0 <- TRADUCTOR[TRADUCTOR$Eje==input$buf_eje,,drop=FALSE]
       if (NROW(d0)>0L) {
-        choices <- setNames(d0$VARIABLE,paste0(d0$Indicador," (",d0$VARIABLE,")"))
+        choices <- as.list(setNames(d0$VARIABLE,paste0(d0$Indicador," (",d0$VARIABLE,")")))
         return(selectInput("buf_inegi_var","Indicador",choices=choices,selected=d0$VARIABLE[1L]))
       }
     }
-    selectInput("buf_inegi_var","Indicador",choices=setNames(INEGI_VARS,INEGI_VARS),selected=INEGI_VARS[1L])
+    selectInput("buf_inegi_var","Indicador",choices=as.list(setNames(INEGI_VARS,INEGI_VARS)),selected=INEGI_VARS[1L])
   })
 
   # ---- UI Generacional ----

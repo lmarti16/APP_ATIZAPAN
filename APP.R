@@ -17,7 +17,12 @@ sf::sf_use_s2(FALSE)
 
 # ──Credenciales ─────────────────────────────────────
 # Credenciales se leen automáticamente de .Renviron:
-#   AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY, AWS_DEFAULT_REGION, GOOGLE_API_KEY, OPENAI_API_KEY
+# ── Credenciales desde .Renviron ─────────────────────────────
+GOOGLE_API_KEY      <- Sys.getenv("GOOGLE_API_KEY", unset = "")
+OPENAI_API_KEY      <- Sys.getenv("OPENAI_API_KEY", unset = "")
+AWS_ACCESS_KEY_ID   <- Sys.getenv("AWS_ACCESS_KEY_ID", unset = "")
+AWS_SECRET_ACCESS_KEY <- Sys.getenv("AWS_SECRET_ACCESS_KEY", unset = "")
+AWS_DEFAULT_REGION  <- Sys.getenv("AWS_DEFAULT_REGION", unset = "")
 
 # ==========================================================
 # HELPERS GENERALES

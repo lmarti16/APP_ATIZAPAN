@@ -42,9 +42,9 @@ for (nm in c("LOGO.PNG", "LOGO.png", "logo.png", "logo.jpg", "LOGO.jpg", "LOGO.P
 # COLORES Y LOGOS
 # ==========================================================
 
-ACCENT  <- "#E50000"
-ACCENT2 <- "#CC0000"
-BG      <- "#070A0F"
+ACCENT  <- "#E60012"
+ACCENT2 <- "#B80010"
+BG      <- "#0D0808"
 CARD    <- "rgba(255,255,255,.06)"
 LINE    <- "rgba(255,255,255,.12)"
 TXT     <- "#FFFFFF"

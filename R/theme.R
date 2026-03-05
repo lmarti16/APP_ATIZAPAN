@@ -23,8 +23,9 @@ app_css <- paste0("
   --muted:    rgba(255,255,255,.82);
   --glass-bg: rgba(255,255,255,.055);
   --glass-border: rgba(255,255,255,.11);
-  --glow:     rgba(229,0,0,.45);
-  --glow-soft:rgba(229,0,0,.18);
+  --glow:     rgba(230,0,18,.50);
+  --glow-soft:rgba(230,0,18,.22);
+  --red-r:    230; --red-g:0; --red-b:18;
   --radius:   18px;
   --radius-sm:12px;
   --trans:    all .22s cubic-bezier(.4,0,.2,1);
@@ -39,10 +40,11 @@ body{
   color:#FFFFFF !important;
   background:", BG, " !important;
   background-image:
-    radial-gradient(ellipse 900px 600px at 8% -5%,  rgba(229,0,0,.28), transparent 55%),
-    radial-gradient(ellipse 700px 500px at 95% 10%, rgba(204,0,0,.16), transparent 50%),
-    radial-gradient(ellipse 500px 400px at 50% 80%, rgba(229,0,0,.10), transparent 55%),
-    radial-gradient(ellipse 300px 300px at 20% 60%, rgba(255,50,0,.06), transparent 50%)
+    radial-gradient(ellipse 1100px 700px at 5% -8%,   rgba(230,0,18,.38), transparent 55%),
+    radial-gradient(ellipse 800px  550px at 92% 8%,    rgba(200,0,12,.22), transparent 50%),
+    radial-gradient(ellipse 600px  450px at 50% 85%,   rgba(230,0,18,.16), transparent 55%),
+    radial-gradient(ellipse 400px  350px at 25% 55%,   rgba(255,40,40,.10), transparent 50%),
+    radial-gradient(ellipse 500px  300px at 70% 45%,   rgba(180,0,16,.08), transparent 50%)
     !important;
   background-attachment: fixed !important;
   min-height:100vh;
@@ -63,8 +65,9 @@ body::after{
   content:'';
   position:fixed; inset:0; z-index:0; pointer-events:none;
   background:
-    radial-gradient(circle 280px at 15% 25%, rgba(229,0,0,.07), transparent),
-    radial-gradient(circle 200px at 80% 75%, rgba(204,0,0,.06), transparent);
+    radial-gradient(circle 320px at 12% 22%, rgba(230,0,18,.10), transparent),
+    radial-gradient(circle 240px at 82% 70%, rgba(200,0,12,.08), transparent),
+    radial-gradient(circle 180px at 50% 10%, rgba(255,40,40,.06), transparent);
   animation: orb-drift 18s ease-in-out infinite alternate;
 }
 @keyframes orb-drift{
@@ -83,26 +86,27 @@ body::after{
 ==================================================== */
 .glass, .glass-card{
   background: linear-gradient(145deg,
-    rgba(255,255,255,.09) 0%,
-    rgba(255,255,255,.04) 60%,
-    rgba(255,255,255,.07) 100%);
-  border: 1px solid rgba(255,255,255,.12);
-  border-top-color: rgba(255,255,255,.22);
-  border-left-color: rgba(255,255,255,.16);
+    rgba(230,0,18,.06) 0%,
+    rgba(255,255,255,.04) 40%,
+    rgba(230,0,18,.03) 100%);
+  border: 1px solid rgba(230,0,18,.15);
+  border-top-color: rgba(255,255,255,.18);
+  border-left-color: rgba(255,255,255,.12);
   border-radius: var(--radius);
   box-shadow:
-    0 2px 0 rgba(255,255,255,.06) inset,
+    0 2px 0 rgba(255,255,255,.05) inset,
     0 20px 60px rgba(0,0,0,.50),
-    0 4px 24px rgba(0,0,0,.30);
+    0 4px 24px rgba(0,0,0,.30),
+    0 0 0 1px rgba(230,0,18,.06);
   backdrop-filter: blur(18px) saturate(160%);
   transition: var(--trans);
 }
 .glass:hover, .glass-card:hover{
-  border-color: rgba(255,255,255,.18);
+  border-color: rgba(230,0,18,.28);
   box-shadow:
     0 2px 0 rgba(255,255,255,.08) inset,
     0 24px 72px rgba(0,0,0,.55),
-    0 0 0 1px rgba(229,0,0,.12);
+    0 0 0 1px rgba(230,0,18,.22);
 }
 
 /* ====================================================
@@ -172,10 +176,10 @@ h1,h2,h3,h4,h5,h6,p,label,span,div,li,td,th,
 /* Shimmer strip on top */
 .kpi::before{
   content:'';
-  position:absolute; top:0; left:0; right:0; height:1px;
+  position:absolute; top:0; left:0; right:0; height:2px;
   background: linear-gradient(90deg,
-    transparent 0%, rgba(255,255,255,.55) 40%,
-    rgba(229,0,0,.70) 60%, transparent 100%);
+    transparent 0%, rgba(230,0,18,.80) 35%,
+    rgba(255,60,60,.90) 50%, rgba(230,0,18,.80) 65%, transparent 100%);
   opacity:0; transition:opacity .35s;
 }
 .kpi:hover::before{ opacity:1; }
@@ -185,7 +189,7 @@ h1,h2,h3,h4,h5,h6,p,label,span,div,li,td,th,
   content:'';
   position:absolute; top:-40px; right:-40px;
   width:100px; height:100px;
-  background: radial-gradient(circle, rgba(229,0,0,.18), transparent 65%);
+  background: radial-gradient(circle, rgba(230,0,18,.25), transparent 65%);
   opacity:0; transition:opacity .35s;
   border-radius:50%;
 }
@@ -198,7 +202,7 @@ h1,h2,h3,h4,h5,h6,p,label,span,div,li,td,th,
 .kpi .v{
   font-size:26px; font-weight:900; color:#FFFFFF;
   margin-top:10px; line-height:1.1;
-  text-shadow: 0 0 30px rgba(229,0,0,.25), 0 2px 10px rgba(0,0,0,.40);
+  text-shadow: 0 0 30px rgba(230,0,18,.30), 0 2px 10px rgba(0,0,0,.40);
 }
 .kpi .s{
   font-size:11.5px; color:rgba(255,255,255,.88);
@@ -230,13 +234,13 @@ h1,h2,h3,h4,h5,h6,p,label,span,div,li,td,th,
    BUTTONS
 ==================================================== */
 .btn-accent{
-  background: linear-gradient(135deg, var(--accent) 0%, var(--accent2) 100%) !important;
+  background: linear-gradient(135deg, #E60012 0%, #CC0010 50%, #B80010 100%) !important;
   border-color: transparent !important;
   color:#fff !important; font-weight:900 !important;
   border-radius:var(--radius-sm) !important;
   box-shadow:
-    0 4px 20px rgba(229,0,0,.40),
-    0 1px 0 rgba(255,255,255,.12) inset !important;
+    0 4px 24px rgba(230,0,18,.50),
+    0 1px 0 rgba(255,255,255,.15) inset !important;
   transition: var(--trans) !important;
   letter-spacing:.02em;
   position:relative; overflow:hidden;
@@ -245,16 +249,16 @@ h1,h2,h3,h4,h5,h6,p,label,span,div,li,td,th,
 .btn-accent::after{
   content:'';
   position:absolute; top:0; left:-100%; width:60%; height:100%;
-  background:linear-gradient(90deg, transparent, rgba(255,255,255,.18), transparent);
+  background:linear-gradient(90deg, transparent, rgba(255,255,255,.22), transparent);
   transform:skewX(-20deg);
   transition:left .5s ease;
 }
 .btn-accent:hover::after{ left:150%; }
 .btn-accent:hover{
-  background: linear-gradient(135deg, #FF1A1A 0%, var(--accent) 100%) !important;
+  background: linear-gradient(135deg, #FF2020 0%, #E60012 100%) !important;
   box-shadow:
-    0 8px 32px rgba(229,0,0,.60),
-    0 1px 0 rgba(255,255,255,.18) inset !important;
+    0 8px 36px rgba(230,0,18,.65),
+    0 1px 0 rgba(255,255,255,.20) inset !important;
   transform:translateY(-2px) !important;
 }
 .btn-accent:active{ transform:translateY(0) !important; }
@@ -286,8 +290,8 @@ h1,h2,h3,h4,h5,h6,p,label,span,div,li,td,th,
 }
 .form-control:focus, .form-select:focus{
   background:rgba(255,255,255,.09) !important;
-  border-color:rgba(229,0,0,.70) !important;
-  box-shadow:0 0 0 3px rgba(229,0,0,.18) !important;
+  border-color:rgba(230,0,18,.75) !important;
+  box-shadow:0 0 0 3px rgba(230,0,18,.22) !important;
   outline:none !important;
 }
 .form-control::placeholder{ color:rgba(255,255,255,.38) !important; }

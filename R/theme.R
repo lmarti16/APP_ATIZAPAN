@@ -39,10 +39,10 @@ body{
   color:#FFFFFF !important;
   background:", BG, " !important;
   background-image:
-    radial-gradient(ellipse 900px 600px at 8% -5%,  rgba(213,0,0,.30), transparent 55%),
-    radial-gradient(ellipse 700px 500px at 95% 10%, rgba(139,0,0,.18), transparent 50%),
-    radial-gradient(ellipse 500px 400px at 50% 80%, rgba(213,0,0,.10), transparent 55%),
-    radial-gradient(ellipse 300px 300px at 20% 60%, rgba(255,100,0,.06), transparent 50%)
+    radial-gradient(ellipse 900px 600px at 8% -5%,  rgba(229,0,0,.28), transparent 55%),
+    radial-gradient(ellipse 700px 500px at 95% 10%, rgba(204,0,0,.16), transparent 50%),
+    radial-gradient(ellipse 500px 400px at 50% 80%, rgba(229,0,0,.10), transparent 55%),
+    radial-gradient(ellipse 300px 300px at 20% 60%, rgba(255,50,0,.06), transparent 50%)
     !important;
   background-attachment: fixed !important;
   min-height:100vh;
@@ -63,8 +63,8 @@ body::after{
   content:'';
   position:fixed; inset:0; z-index:0; pointer-events:none;
   background:
-    radial-gradient(circle 280px at 15% 25%, rgba(213,0,0,.07), transparent),
-    radial-gradient(circle 200px at 80% 75%, rgba(139,0,0,.06), transparent);
+    radial-gradient(circle 280px at 15% 25%, rgba(229,0,0,.07), transparent),
+    radial-gradient(circle 200px at 80% 75%, rgba(204,0,0,.06), transparent);
   animation: orb-drift 18s ease-in-out infinite alternate;
 }
 @keyframes orb-drift{
@@ -307,6 +307,13 @@ h1,h2,h3,h4,h5,h6,p,label,span,div,li,td,th,
   background:rgba(255,255,255,.09) !important;
 }
 .selectize-control .selectize-input input{ color:#FFFFFF !important; }
+/* Remove backdrop-filter on glass cards with selectize to prevent stacking context */
+.glass:has(.selectize-control){
+  backdrop-filter:none !important;
+  -webkit-backdrop-filter:none !important;
+  position:relative;
+  z-index:10;
+}
 .selectize-dropdown{
   background:rgba(8,10,16,.97) !important;
   border:1px solid rgba(255,255,255,.12) !important;
@@ -815,28 +822,4 @@ app_js <- HTML("
       });
     }, 300);
   });
-  // Move selectize dropdowns to body so they escape stacking contexts
-  // (backdrop-filter on .glass creates a stacking context that clips z-index)
-  $(document).one('shiny:idle', function(){
-    $('.selectize-control').each(function(){
-      var sel = this.selectize || $(this).find('select, input')[0];
-      if (sel && sel.selectize) {
-        sel.selectize.settings.dropdownParent = 'body';
-        sel.selectize.$dropdown.appendTo('body');
-      }
-    });
-  });
-  // Handle dynamically created selectize inputs
-  new MutationObserver(function(mutations){
-    mutations.forEach(function(m){
-      $(m.addedNodes).find('.selectize-control').addBack('.selectize-control').each(function(){
-        var $inp = $(this).find('select, input').first()[0];
-        if ($inp && $inp.selectize && !$inp.selectize._dropdownMoved) {
-          $inp.selectize.settings.dropdownParent = 'body';
-          $inp.selectize.$dropdown.appendTo('body');
-          $inp.selectize._dropdownMoved = true;
-        }
-      });
-    });
-  }).observe(document.body, {childList:true, subtree:true});
 ")

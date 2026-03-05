@@ -198,3 +198,42 @@ top2_from_totals <- function(tot) {
     w2 = names(tot)[2L] %||% NA_character_,  v2 = as.numeric(tot[[2L]] %||% NA_real_)
   )
 }
+# ── TRADUCTOR: catálogo de variables INEGI ────────
+TRADUCTOR <- tryCatch({
+  trad <- read_csv_flex(PATH_TRAD)
+  if (!all(c("Eje", "Indicador", "VARIABLE") %in% names(trad)))
+    stop("Falta columna Eje/Indicador/VARIABLE")
+  as.data.frame(trad)
+}, error = function(e) {
+  message("Aviso: no se pudo cargar TRADUCTOR: ", conditionMessage(e))
+  data.frame(Eje = character(0), Indicador = character(0), VARIABLE = character(0),
+             stringsAsFactors = FALSE)
+})
+
+# Detectar columnas _INEGI en sf_all y matchear con TRADUCTOR
+INEGI_COLS <- grep("_INEGI$", names(sf_all), value = TRUE)
+INEGI_VARS <- sub("_INEGI$", "", INEGI_COLS)
+# Mapeo: VARIABLE -> columna en sf_all
+INEGI_COL_MAP <- setNames(INEGI_COLS, INEGI_VARS)
+
+# Filtrar TRADUCTOR solo a variables que existen en los datos
+if (NROW(TRADUCTOR) > 0) {
+  TRADUCTOR <- TRADUCTOR[TRADUCTOR$VARIABLE %in% INEGI_VARS, ]
+  TRADUCTOR$COL_NAME <- INEGI_COL_MAP[TRADUCTOR$VARIABLE]
+}
+
+# Ejes disponibles (ordenados)
+EJES_DISPONIBLES <- if (NROW(TRADUCTOR) > 0) unique(TRADUCTOR$Eje) else character(0)
+message(">> INEGI: ", length(INEGI_COLS), " columnas, ", NROW(TRADUCTOR),
+        " en traductor, ", length(EJES_DISPONIBLES), " ejes")
+
+INIT_BBOX <- sf::st_bbox(sf_all)
+INIT_LNG  <- as.numeric((INIT_BBOX["xmin"] + INIT_BBOX["xmax"]) / 2)
+INIT_LAT  <- as.numeric((INIT_BBOX["ymin"] + INIT_BBOX["ymax"]) / 2)
+INIT_ZOOM <- 12L
+
+SECC_DL_COL      <- if ("DISTRITO_L" %in% names(sf_all)) "DISTRITO_L" else NA_character_
+SECC_DL_NAME_COL <- pick_col(names(sf_all), c("NOMBRE_DISTRITO_LOCAL", "NOM_DISTRITO_LOCAL"))
+SECC_MUN_COL     <- pick_col(names(sf_all), c("NOMBRE_MUNICIPIO", "NOM_MUN", "MUNICIPIO"))
+SECC_DF_COL      <- pick_col(names(sf_all), c("DISTRITO_FEDERAL", "DISTRITO_F", "DIST_F", "DF_NUM"))
+SECC_DF_NAME_COL <- pick_col(names(sf_all), c("NOMBRE_DISTRITO_FEDERAL", "NOM_DF"))

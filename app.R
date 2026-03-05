@@ -205,7 +205,13 @@ ui_base <- bslib::page_fillable(
     ),
 
     bslib::navset_tab(
+      home_ui(),
       explorar_ui(),
+      correlacion_ui(),
+      competitividad_ui(),
+      clustering_ui(),
+      comparador_ui(),
+      flujo_ui(),
       tiempo_ui(),
       pauta_ui(),
       leeme_ui()
@@ -405,7 +411,13 @@ server <- function(input, output, session) {
   }, ignoreInit=TRUE)
 
   # ---- Module servers ----
+  home_server(input, output, session, has_applied, applied, df_applied, df_metrics)
   tbl_data <- explorar_server(input, output, session, has_applied, applied, df_applied, dl_applied, df_metrics)
+  correlacion_server(input, output, session, has_applied, applied, df_applied, df_metrics)
+  competitividad_server(input, output, session, has_applied, applied, df_applied, dl_applied, df_metrics)
+  clustering_server(input, output, session, has_applied, applied, df_applied, dl_applied, df_metrics)
+  comparador_server(input, output, session, has_applied, applied, df_applied, df_metrics)
+  flujo_server(input, output, session, has_applied, applied, df_applied, df_metrics)
   tiempo_server(input, output, session, has_applied, applied, df_applied, dl_applied)
   pauta_server(input, output, session, has_applied, applied, df_applied, dl_applied, buf_applied)
 

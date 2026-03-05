@@ -307,6 +307,8 @@ h1,h2,h3,h4,h5,h6,p,label,span,div,li,td,th,
   background:rgba(255,255,255,.09) !important;
 }
 .selectize-control .selectize-input input{ color:#FFFFFF !important; }
+/* Ensure glass cards containing selectize don't clip dropdowns */
+.glass:has(.selectize-control){ overflow:visible !important; }
 .selectize-dropdown{
   background:rgba(8,10,16,.97) !important;
   border:1px solid rgba(255,255,255,.12) !important;
@@ -791,11 +793,28 @@ app_js <- HTML("
       $('#buf_generate').removeClass('pending');
     }
   });
-  // Smooth tab transitions
+  // Smooth tab transitions + invalidate Leaflet maps on tab switch
   $(document).on('shown.bs.tab', function() {
     $('.tab-pane.active .glass, .tab-pane.active .glass-card').css('animation','none');
     setTimeout(function(){
       $('.tab-pane.active .glass, .tab-pane.active .glass-card').css('animation','');
     }, 50);
+    // Leaflet maps rendered on hidden tabs have wrong size; invalidate them
+    setTimeout(function(){
+      $('.tab-pane.active .leaflet-container').each(function(){
+        var map = $(this).data('leaflet-map') || HTMLWidgets.find('#' + this.id);
+        if (map && map.getMap) map.getMap().invalidateSize();
+        else if (map && map.invalidateSize) map.invalidateSize();
+      });
+    }, 150);
+  });
+  // Also invalidate after first Shiny idle (auto-apply)
+  $(document).one('shiny:idle', function(){
+    setTimeout(function(){
+      $('.leaflet-container').each(function(){
+        var w = HTMLWidgets.find('#' + this.id);
+        if (w && w.getMap) w.getMap().invalidateSize();
+      });
+    }, 300);
   });
 ")

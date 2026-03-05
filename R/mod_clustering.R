@@ -202,6 +202,7 @@ clustering_server <- function(input, output, session, has_applied, applied, df_a
   CLUSTER_COLORS <- c("#D50000","#005BAC","#2EAD4A","#FF6A00","#7A013A","#00B5E2","#FFD200","#EC008C")
 
   output$clust_map <- renderLeaflet({ create_base_leaflet() })
+  outputOptions(output, "clust_map", suspendWhenHidden = FALSE)
 
   observe({
     req(has_clust(), has_applied())

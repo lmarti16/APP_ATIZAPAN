@@ -168,6 +168,7 @@ competitividad_server <- function(input, output, session, has_applied, applied, 
 
   # ---- MAP ----
   output$comp_map <- renderLeaflet({ create_base_leaflet() })
+  outputOptions(output, "comp_map", suspendWhenHidden = FALSE)
 
   observe({
     req(has_applied())

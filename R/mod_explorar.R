@@ -171,6 +171,7 @@ explorar_server <- function(input, output, session, has_applied, applied, df_app
 
   # ---- MAPA EXPLORAR ----
   output$map <- renderLeaflet({ create_base_leaflet() })
+  outputOptions(output, "map", suspendWhenHidden = FALSE)
 
   observe({
     req(has_applied())

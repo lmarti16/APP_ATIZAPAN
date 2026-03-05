@@ -320,8 +320,11 @@ server <- function(input, output, session) {
     showNotification("Generado \u2705", type="message", duration=1.2)
   }, ignoreInit=TRUE)
 
-  # Auto-apply defaults on startup so all tabs activate immediately
+  # Auto-apply defaults on startup so all tabs activate immediately (once)
+  auto_fired <- reactiveVal(FALSE)
   observe({
+    if (auto_fired()) return()
+    auto_fired(TRUE)
     ap <- list(
       election        = DEFAULT_ELECTION,
       winner_vote_type= "DISTRIBUIDO",

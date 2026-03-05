@@ -309,6 +309,7 @@ tiempo_server <- function(input, output, session, has_applied, applied, df_appli
 
   # ---- MAPA TIEMPO ----
   output$map_time <- renderLeaflet({ create_base_leaflet() })
+  outputOptions(output, "map_time", suspendWhenHidden = FALSE)
 
   observe({
     validate(need(has_applied(),"Presiona GENERAR"))

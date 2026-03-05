@@ -199,7 +199,7 @@ clustering_server <- function(input, output, session, has_applied, applied, df_a
   })
 
   # ---- MAP ----
-  CLUSTER_COLORS <- c("#D50000","#005BAC","#2EAD4A","#FF6A00","#7A013A","#00B5E2","#FFD200","#EC008C")
+  CLUSTER_COLORS <- c("#E50000","#005BAC","#2EAD4A","#FF6A00","#7A013A","#00B5E2","#FFD200","#EC008C")
 
   output$clust_map <- renderLeaflet({ create_base_leaflet() })
 
@@ -223,7 +223,7 @@ clustering_server <- function(input, output, session, has_applied, applied, df_a
     proxy <- proxy |>
       addPolygons(data=df, color="rgba(255,255,255,.18)", weight=1,
                   fillColor=cols, fillOpacity=0.62,
-                  label=lapply(lab, HTML),
+                  popup=lapply(lab, HTML),
                   highlightOptions=highlightOptions(color="#ffffff", weight=2, bringToFront=TRUE))
 
     # Legend

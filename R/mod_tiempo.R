@@ -17,10 +17,10 @@ tiempo_ui <- function() {
                   )
               ),
               radioButtons("ts_office","Serie",
-                           choices=list("Solo AYU"="AYU","Solo DL"="DL","AYU + DL"="BOTH"),
+                           choices=list("Ayuntamientos"="AYU","Dip. Local"="DL","Ambos"="BOTH"),
                            selected="BOTH", inline=TRUE),
               radioButtons("ts_vote_type","Votos para partidos",
-                           choices=list("DISTRIBUIDO"="DISTRIBUIDO","PURO"="PURO"),
+                           choices=list("Distribuido"="DISTRIBUIDO","Puro"="PURO"),
                            selected="DISTRIBUIDO", inline=TRUE),
               radioButtons("ts_party_metric","M\u00e9trica partidos",
                            choices=list("Votos"="votes","% (sobre v\u00e1lidos)"="pct"),
@@ -309,6 +309,7 @@ tiempo_server <- function(input, output, session, has_applied, applied, df_appli
 
   # ---- MAPA TIEMPO ----
   output$map_time <- renderLeaflet({ create_base_leaflet() })
+  outputOptions(output, "map_time", suspendWhenHidden = FALSE)
 
   observe({
     validate(need(has_applied(),"Presiona GENERAR"))

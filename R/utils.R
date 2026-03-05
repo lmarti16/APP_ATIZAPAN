@@ -92,7 +92,7 @@ reverse_geocode <- function(lat, lng, api_key = NULL) {
 }
 
 # DT helper dark init
-dt_dark_init <- JS("function(settings, json) {
+dt_dark_init <- DT::JS("function(settings, json) {
   $(this.api().table().container()).css({'color':'#FFFFFF','background':'transparent'});
 }")
 

@@ -384,6 +384,7 @@ pauta_server <- function(input, output, session, has_applied, applied, df_applie
 
   # ---- MAPA PAUTA ----
   output$map_buf <- renderLeaflet({ create_base_leaflet() })
+  outputOptions(output, "map_buf", suspendWhenHidden = FALSE)
 
   observe({
     req(has_buf())

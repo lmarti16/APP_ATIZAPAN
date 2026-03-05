@@ -2,7 +2,7 @@
 # THEME + CSS
 # ==========================================================
 
-app_theme <-  bslib::bs_theme(
+app_theme <- bslib::bs_theme(
   bootswatch = "darkly",
   primary    = ACCENT,
   base_font  = "system-ui",
@@ -23,8 +23,9 @@ app_css <- paste0("
   --muted:    rgba(255,255,255,.82);
   --glass-bg: rgba(255,255,255,.055);
   --glass-border: rgba(255,255,255,.11);
-  --glow:     rgba(213,0,0,.45);
-  --glow-soft:rgba(213,0,0,.18);
+  --glow:     rgba(230,0,18,.50);
+  --glow-soft:rgba(230,0,18,.22);
+  --red-r:    230; --red-g:0; --red-b:18;
   --radius:   18px;
   --radius-sm:12px;
   --trans:    all .22s cubic-bezier(.4,0,.2,1);
@@ -39,10 +40,11 @@ body{
   color:#FFFFFF !important;
   background:", BG, " !important;
   background-image:
-    radial-gradient(ellipse 900px 600px at 8% -5%,  rgba(213,0,0,.30), transparent 55%),
-    radial-gradient(ellipse 700px 500px at 95% 10%, rgba(139,0,0,.18), transparent 50%),
-    radial-gradient(ellipse 500px 400px at 50% 80%, rgba(213,0,0,.10), transparent 55%),
-    radial-gradient(ellipse 300px 300px at 20% 60%, rgba(255,100,0,.06), transparent 50%)
+    radial-gradient(ellipse 1100px 700px at 5% -8%,   rgba(230,0,18,.38), transparent 55%),
+    radial-gradient(ellipse 800px  550px at 92% 8%,    rgba(200,0,12,.22), transparent 50%),
+    radial-gradient(ellipse 600px  450px at 50% 85%,   rgba(230,0,18,.16), transparent 55%),
+    radial-gradient(ellipse 400px  350px at 25% 55%,   rgba(255,40,40,.10), transparent 50%),
+    radial-gradient(ellipse 500px  300px at 70% 45%,   rgba(180,0,16,.08), transparent 50%)
     !important;
   background-attachment: fixed !important;
   min-height:100vh;
@@ -63,8 +65,9 @@ body::after{
   content:'';
   position:fixed; inset:0; z-index:0; pointer-events:none;
   background:
-    radial-gradient(circle 280px at 15% 25%, rgba(213,0,0,.07), transparent),
-    radial-gradient(circle 200px at 80% 75%, rgba(139,0,0,.06), transparent);
+    radial-gradient(circle 320px at 12% 22%, rgba(230,0,18,.10), transparent),
+    radial-gradient(circle 240px at 82% 70%, rgba(200,0,12,.08), transparent),
+    radial-gradient(circle 180px at 50% 10%, rgba(255,40,40,.06), transparent);
   animation: orb-drift 18s ease-in-out infinite alternate;
 }
 @keyframes orb-drift{
@@ -83,26 +86,27 @@ body::after{
 ==================================================== */
 .glass, .glass-card{
   background: linear-gradient(145deg,
-    rgba(255,255,255,.09) 0%,
-    rgba(255,255,255,.04) 60%,
-    rgba(255,255,255,.07) 100%);
-  border: 1px solid rgba(255,255,255,.12);
-  border-top-color: rgba(255,255,255,.22);
-  border-left-color: rgba(255,255,255,.16);
+    rgba(230,0,18,.06) 0%,
+    rgba(255,255,255,.04) 40%,
+    rgba(230,0,18,.03) 100%);
+  border: 1px solid rgba(230,0,18,.15);
+  border-top-color: rgba(255,255,255,.18);
+  border-left-color: rgba(255,255,255,.12);
   border-radius: var(--radius);
   box-shadow:
-    0 2px 0 rgba(255,255,255,.06) inset,
+    0 2px 0 rgba(255,255,255,.05) inset,
     0 20px 60px rgba(0,0,0,.50),
-    0 4px 24px rgba(0,0,0,.30);
+    0 4px 24px rgba(0,0,0,.30),
+    0 0 0 1px rgba(230,0,18,.06);
   backdrop-filter: blur(18px) saturate(160%);
   transition: var(--trans);
 }
 .glass:hover, .glass-card:hover{
-  border-color: rgba(255,255,255,.18);
+  border-color: rgba(230,0,18,.28);
   box-shadow:
     0 2px 0 rgba(255,255,255,.08) inset,
     0 24px 72px rgba(0,0,0,.55),
-    0 0 0 1px rgba(213,0,0,.12);
+    0 0 0 1px rgba(230,0,18,.22);
 }
 
 /* ====================================================
@@ -153,7 +157,7 @@ h1,h2,h3,h4,h5,h6,p,label,span,div,li,td,th,
 .section-label::after{
   content:''; flex:1;
   height:1px;
-  background: linear-gradient(90deg, rgba(213,0,0,.40), transparent);
+  background: linear-gradient(90deg, rgba(229,0,0,.40), transparent);
 }
 
 /* ====================================================
@@ -172,10 +176,10 @@ h1,h2,h3,h4,h5,h6,p,label,span,div,li,td,th,
 /* Shimmer strip on top */
 .kpi::before{
   content:'';
-  position:absolute; top:0; left:0; right:0; height:1px;
+  position:absolute; top:0; left:0; right:0; height:2px;
   background: linear-gradient(90deg,
-    transparent 0%, rgba(255,255,255,.55) 40%,
-    rgba(213,0,0,.70) 60%, transparent 100%);
+    transparent 0%, rgba(230,0,18,.80) 35%,
+    rgba(255,60,60,.90) 50%, rgba(230,0,18,.80) 65%, transparent 100%);
   opacity:0; transition:opacity .35s;
 }
 .kpi:hover::before{ opacity:1; }
@@ -185,7 +189,7 @@ h1,h2,h3,h4,h5,h6,p,label,span,div,li,td,th,
   content:'';
   position:absolute; top:-40px; right:-40px;
   width:100px; height:100px;
-  background: radial-gradient(circle, rgba(213,0,0,.18), transparent 65%);
+  background: radial-gradient(circle, rgba(230,0,18,.25), transparent 65%);
   opacity:0; transition:opacity .35s;
   border-radius:50%;
 }
@@ -198,7 +202,7 @@ h1,h2,h3,h4,h5,h6,p,label,span,div,li,td,th,
 .kpi .v{
   font-size:26px; font-weight:900; color:#FFFFFF;
   margin-top:10px; line-height:1.1;
-  text-shadow: 0 0 30px rgba(213,0,0,.25), 0 2px 10px rgba(0,0,0,.40);
+  text-shadow: 0 0 30px rgba(230,0,18,.30), 0 2px 10px rgba(0,0,0,.40);
 }
 .kpi .s{
   font-size:11.5px; color:rgba(255,255,255,.88);
@@ -230,13 +234,13 @@ h1,h2,h3,h4,h5,h6,p,label,span,div,li,td,th,
    BUTTONS
 ==================================================== */
 .btn-accent{
-  background: linear-gradient(135deg, var(--accent) 0%, var(--accent2) 100%) !important;
+  background: linear-gradient(135deg, #E60012 0%, #CC0010 50%, #B80010 100%) !important;
   border-color: transparent !important;
   color:#fff !important; font-weight:900 !important;
   border-radius:var(--radius-sm) !important;
   box-shadow:
-    0 4px 20px rgba(213,0,0,.40),
-    0 1px 0 rgba(255,255,255,.12) inset !important;
+    0 4px 24px rgba(230,0,18,.50),
+    0 1px 0 rgba(255,255,255,.15) inset !important;
   transition: var(--trans) !important;
   letter-spacing:.02em;
   position:relative; overflow:hidden;
@@ -245,16 +249,16 @@ h1,h2,h3,h4,h5,h6,p,label,span,div,li,td,th,
 .btn-accent::after{
   content:'';
   position:absolute; top:0; left:-100%; width:60%; height:100%;
-  background:linear-gradient(90deg, transparent, rgba(255,255,255,.18), transparent);
+  background:linear-gradient(90deg, transparent, rgba(255,255,255,.22), transparent);
   transform:skewX(-20deg);
   transition:left .5s ease;
 }
 .btn-accent:hover::after{ left:150%; }
 .btn-accent:hover{
-  background: linear-gradient(135deg, #FF1A1A 0%, var(--accent) 100%) !important;
+  background: linear-gradient(135deg, #FF2020 0%, #E60012 100%) !important;
   box-shadow:
-    0 8px 32px rgba(213,0,0,.60),
-    0 1px 0 rgba(255,255,255,.18) inset !important;
+    0 8px 36px rgba(230,0,18,.65),
+    0 1px 0 rgba(255,255,255,.20) inset !important;
   transform:translateY(-2px) !important;
 }
 .btn-accent:active{ transform:translateY(0) !important; }
@@ -286,8 +290,8 @@ h1,h2,h3,h4,h5,h6,p,label,span,div,li,td,th,
 }
 .form-control:focus, .form-select:focus{
   background:rgba(255,255,255,.09) !important;
-  border-color:rgba(213,0,0,.70) !important;
-  box-shadow:0 0 0 3px rgba(213,0,0,.18) !important;
+  border-color:rgba(230,0,18,.75) !important;
+  box-shadow:0 0 0 3px rgba(230,0,18,.22) !important;
   outline:none !important;
 }
 .form-control::placeholder{ color:rgba(255,255,255,.38) !important; }
@@ -302,33 +306,50 @@ h1,h2,h3,h4,h5,h6,p,label,span,div,li,td,th,
 }
 .selectize-control.focus .selectize-input,
 .selectize-control .selectize-input.focus{
-  border-color:rgba(213,0,0,.65) !important;
-  box-shadow:0 0 0 3px rgba(213,0,0,.15) !important;
+  border-color:rgba(229,0,0,.65) !important;
+  box-shadow:0 0 0 3px rgba(229,0,0,.15) !important;
   background:rgba(255,255,255,.09) !important;
 }
 .selectize-control .selectize-input input{ color:#FFFFFF !important; }
+/* Remove backdrop-filter on glass cards with selectize to prevent stacking context.
+   backdrop-filter creates a containing block that traps z-index of children. */
+.glass:has(.selectize-control){
+  backdrop-filter:none !important;
+  -webkit-backdrop-filter:none !important;
+  position:relative;
+  z-index:10;
+  overflow:visible !important;
+}
+/* Also target bslib layout-columns containers that may clip */
+.glass:has(.selectize-control) .bslib-grid,
+.glass:has(.selectize-control) [class*='layout-columns'],
+.glass:has(.selectize-control) .col,
+.glass:has(.selectize-control) [class*='col-']{
+  overflow:visible !important;
+}
 .selectize-dropdown{
   background:rgba(8,10,16,.97) !important;
   border:1px solid rgba(255,255,255,.12) !important;
   border-radius:var(--radius-sm) !important;
   backdrop-filter:blur(20px);
   box-shadow:0 20px 60px rgba(0,0,0,.65) !important;
+  z-index:99999 !important;
 }
 .selectize-dropdown .option{ color:#FFFFFF !important; padding:8px 12px; transition:.12s; }
 .selectize-dropdown .option:hover,
 .selectize-dropdown .option.active{
-  background:linear-gradient(90deg, rgba(213,0,0,.30), rgba(213,0,0,.10)) !important;
+  background:linear-gradient(90deg, rgba(229,0,0,.30), rgba(229,0,0,.10)) !important;
   padding-left:16px;
 }
 .selectize-dropdown .option.selected{
-  background:rgba(213,0,0,.20) !important;
+  background:rgba(229,0,0,.20) !important;
   font-weight:700;
 }
 
 /* Radio & checkbox */
 .form-check-label{ color:#FFFFFF !important; font-size:13px; }
 .form-check-input{ accent-color:var(--accent) !important; }
-.form-check-input:focus{ box-shadow:0 0 0 3px rgba(213,0,0,.20) !important; }
+.form-check-input:focus{ box-shadow:0 0 0 3px rgba(229,0,0,.20) !important; }
 
 /* shiny switch */
 .bslib-input-switch .form-check-input:checked{ background-color:var(--accent) !important; border-color:var(--accent) !important; }
@@ -372,18 +393,18 @@ input[type=range]{ accent-color:var(--accent) !important; }
   background:linear-gradient(135deg,var(--accent),var(--accent2));
   color:#fff; padding:2px 7px; border-radius:999px;
   margin-left:6px; vertical-align:middle;
-  box-shadow:0 2px 8px rgba(213,0,0,.40);
+  box-shadow:0 2px 8px rgba(229,0,0,.40);
 }
 .sbScroll{
   padding:8px 14px 10px;
   overflow-y:auto; overflow-x:hidden;
   flex:1 1 auto;
   scrollbar-width:thin;
-  scrollbar-color:rgba(213,0,0,.35) transparent;
+  scrollbar-color:rgba(229,0,0,.35) transparent;
 }
 .sbScroll::-webkit-scrollbar{ width:3px; }
 .sbScroll::-webkit-scrollbar-thumb{
-  background:linear-gradient(180deg,rgba(213,0,0,.50),rgba(213,0,0,.20));
+  background:linear-gradient(180deg,rgba(229,0,0,.50),rgba(229,0,0,.20));
   border-radius:999px;
 }
 .sbScroll::-webkit-scrollbar-track{ background:transparent; }
@@ -438,7 +459,7 @@ input[type=range]{ accent-color:var(--accent) !important; }
   border:1px solid rgba(255,255,255,.09);
   box-shadow:
     0 20px 60px rgba(0,0,0,.55),
-    0 0 0 1px rgba(213,0,0,.08);
+    0 0 0 1px rgba(229,0,0,.08);
 }
 .leaflet-control-layers{
   background:rgba(5,7,12,.80) !important;
@@ -474,7 +495,7 @@ input[type=range]{ accent-color:var(--accent) !important; }
   border-color:rgba(255,255,255,.12) !important;
   backdrop-filter:blur(8px);
 }
-.leaflet-bar a:hover{ background:rgba(213,0,0,.25) !important; }
+.leaflet-bar a:hover{ background:rgba(229,0,0,.25) !important; }
 
 /* ====================================================
    DATATABLES
@@ -494,8 +515,8 @@ input[type=range]{ accent-color:var(--accent) !important; }
   padding:5px 10px;
 }
 .dataTables_wrapper .dataTables_filter input:focus{
-  border-color:rgba(213,0,0,.60) !important;
-  box-shadow:0 0 0 3px rgba(213,0,0,.15) !important;
+  border-color:rgba(229,0,0,.60) !important;
+  box-shadow:0 0 0 3px rgba(229,0,0,.15) !important;
   outline:none !important;
 }
 
@@ -507,7 +528,7 @@ table.dataTable thead th{
   background:rgba(0,0,0,.40) !important;
   color:#FFFFFF !important; font-weight:800 !important;
   font-size:11px; letter-spacing:.08em; text-transform:uppercase;
-  border-bottom:2px solid rgba(213,0,0,.50) !important;
+  border-bottom:2px solid rgba(229,0,0,.50) !important;
   padding:10px 12px !important;
 }
 table.dataTable tbody td{
@@ -522,7 +543,7 @@ table.dataTable tbody tr{
   transition:var(--trans);
 }
 table.dataTable tbody tr:hover > td{
-  background:rgba(213,0,0,.14) !important;
+  background:rgba(229,0,0,.14) !important;
 }
 table.dataTable tbody tr.odd  > td{ background:rgba(255,255,255,.03) !important; }
 table.dataTable tbody tr.even > td{ background:rgba(0,0,0,.12) !important; }
@@ -537,8 +558,8 @@ table.dataTable tbody tr:hover{ transform:translateX(2px); }
   transition:var(--trans) !important;
 }
 .dt-button:hover{
-  background:rgba(213,0,0,.22) !important;
-  border-color:rgba(213,0,0,.40) !important;
+  background:rgba(229,0,0,.22) !important;
+  border-color:rgba(229,0,0,.40) !important;
   transform:translateY(-1px) !important;
 }
 
@@ -578,10 +599,10 @@ hr{ border-color:rgba(255,255,255,.09) !important; margin:12px 0; }
 /* Scrollbar global */
 ::-webkit-scrollbar{ width:4px; height:4px; }
 ::-webkit-scrollbar-thumb{
-  background:rgba(213,0,0,.30);
+  background:rgba(229,0,0,.30);
   border-radius:999px;
 }
-::-webkit-scrollbar-thumb:hover{ background:rgba(213,0,0,.55); }
+::-webkit-scrollbar-thumb:hover{ background:rgba(229,0,0,.55); }
 ::-webkit-scrollbar-track{ background:transparent; }
 
 /* Loading spinner override */
@@ -633,8 +654,8 @@ hr{ border-color:rgba(255,255,255,.09) !important; margin:12px 0; }
    GENERAR BUTTON -- PULSE WHEN PENDING
 ==================================================== */
 @keyframes pulse-glow{
-  0%, 100%{ box-shadow: 0 4px 20px rgba(213,0,0,.40), 0 0 0 0   rgba(213,0,0,.35); }
-  50%     { box-shadow: 0 4px 20px rgba(213,0,0,.70), 0 0 0 10px rgba(213,0,0,.00); }
+  0%, 100%{ box-shadow: 0 4px 20px rgba(229,0,0,.40), 0 0 0 0   rgba(229,0,0,.35); }
+  50%     { box-shadow: 0 4px 20px rgba(229,0,0,.70), 0 0 0 10px rgba(229,0,0,.00); }
 }
 .btn-accent.pending{
   animation: pulse-glow 2.2s ease-in-out infinite;
@@ -671,7 +692,7 @@ hr{ border-color:rgba(255,255,255,.09) !important; margin:12px 0; }
   background: linear-gradient(135deg, var(--accent), var(--accent2)) !important;
   color:#FFFFFF !important;
   font-weight:800 !important;
-  box-shadow:0 2px 10px rgba(213,0,0,.40);
+  box-shadow:0 2px 10px rgba(229,0,0,.40);
 }
 
 /* ====================================================
@@ -686,9 +707,9 @@ hr{ border-color:rgba(255,255,255,.09) !important; margin:12px 0; }
   width:32px; height:32px; border-radius:9px; flex-shrink:0;
   display:flex; align-items:center; justify-content:center;
   font-size:16px;
-  background:linear-gradient(135deg,rgba(213,0,0,.28),rgba(139,0,0,.18));
-  border:1px solid rgba(213,0,0,.30);
-  box-shadow:0 2px 10px rgba(213,0,0,.20);
+  background:linear-gradient(135deg,rgba(229,0,0,.28),rgba(204,0,0,.18));
+  border:1px solid rgba(229,0,0,.30);
+  box-shadow:0 2px 10px rgba(229,0,0,.20);
 }
 .card-hd-text .t{ font-size:13px; font-weight:800; color:#FFFFFF; line-height:1.2; }
 .card-hd-text .s{ font-size:10.5px; color:rgba(255,255,255,.72); margin-top:1px; }
@@ -707,13 +728,13 @@ hr{ border-color:rgba(255,255,255,.09) !important; margin:12px 0; }
   transition: var(--trans);
 }
 .status-badge.idle{
-  background:rgba(213,0,0,.12);
-  border-color:rgba(213,0,0,.30);
+  background:rgba(229,0,0,.12);
+  border-color:rgba(229,0,0,.30);
   color:rgba(255,180,180,.95);
 }
 .status-badge.idle::before{
   content:''; width:7px; height:7px; border-radius:50%;
-  background:rgba(213,0,0,.80); flex-shrink:0;
+  background:rgba(229,0,0,.80); flex-shrink:0;
   animation: blink 1.8s ease-in-out infinite;
 }
 @keyframes blink{
@@ -756,7 +777,7 @@ hr{ border-color:rgba(255,255,255,.09) !important; margin:12px 0; }
 }
 .kpi-bar-fill{
   height:100%; border-radius:999px;
-  background:linear-gradient(90deg, var(--accent), rgba(213,0,0,.50));
+  background:linear-gradient(90deg, var(--accent), rgba(229,0,0,.50));
   transition: width .6s cubic-bezier(.4,0,.2,1);
 }
 
@@ -790,11 +811,28 @@ app_js <- HTML("
       $('#buf_generate').removeClass('pending');
     }
   });
-  // Smooth tab transitions
+  // Smooth tab transitions + invalidate Leaflet maps on tab switch
   $(document).on('shown.bs.tab', function() {
     $('.tab-pane.active .glass, .tab-pane.active .glass-card').css('animation','none');
     setTimeout(function(){
       $('.tab-pane.active .glass, .tab-pane.active .glass-card').css('animation','');
     }, 50);
+    // Leaflet maps rendered on hidden tabs have wrong size; invalidate them
+    setTimeout(function(){
+      $('.tab-pane.active .leaflet-container').each(function(){
+        var map = $(this).data('leaflet-map') || HTMLWidgets.find('#' + this.id);
+        if (map && map.getMap) map.getMap().invalidateSize();
+        else if (map && map.invalidateSize) map.invalidateSize();
+      });
+    }, 150);
+  });
+  // Also invalidate after first Shiny idle (auto-apply)
+  $(document).one('shiny:idle', function(){
+    setTimeout(function(){
+      $('.leaflet-container').each(function(){
+        var w = HTMLWidgets.find('#' + this.id);
+        if (w && w.getMap) w.getMap().invalidateSize();
+      });
+    }, 300);
   });
 ")

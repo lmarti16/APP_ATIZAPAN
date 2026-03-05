@@ -162,9 +162,9 @@ comparador_server <- function(input, output, session, has_applied, applied, df_a
     }
 
     radar_colors <- c("#D50000", "#005BAC", "#2EAD4A")
-    p <- plot_ly(type="scatterpolar", fill="toself")
+    p <- plot_ly(type="scatterpolar", mode="lines+markers", fill="toself")
     for (i in seq_along(cm$secciones)) {
-      r <- c(M[i, ], M[i, 1L])
+      r <- unname(c(M[i, ], M[i, 1L]))
       theta <- c(num_labels, num_labels[1L])
       col <- radar_colors[((i - 1) %% length(radar_colors)) + 1]
       p <- p |> add_trace(r=r, theta=theta, name=paste0("Secc ", cm$secciones[i]),

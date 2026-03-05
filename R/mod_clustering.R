@@ -218,7 +218,7 @@ clustering_server <- function(input, output, session, has_applied, applied, df_a
       "<br>Cluster: <b style='color:", cols, "'>", cls, "</b>",
       vapply(seq_len(ncol(cr$M)), function(j) {
         paste0("<br>", cr$var_labels[j], ": <b>", formatC(cr$M[,j], format="f", digits=2), "</b>")
-      }, character(nrow(df))) |> apply(2, paste0, collapse="")
+      }, character(nrow(df))) |> apply(1, paste0, collapse="")
     )
 
     proxy <- proxy |>
@@ -249,13 +249,13 @@ clustering_server <- function(input, output, session, has_applied, applied, df_a
     cls <- cr$clusters; M <- cr$M_scaled
     k <- cr$k; vars <- cr$var_labels
 
-    p <- plot_ly(type="scatterpolar", fill="toself")
+    p <- plot_ly(type="scatterpolar", mode="lines+markers", fill="toself")
     for (cl in seq_len(k)) {
       idx <- cls == cl
       if (sum(idx) == 0) next
       means <- colMeans(M[idx, , drop=FALSE], na.rm=TRUE)
       # Close the polygon
-      r <- c(means, means[1L])
+      r <- unname(c(means, means[1L]))
       theta <- c(vars, vars[1L])
       col <- CLUSTER_COLORS[((cl - 1) %% length(CLUSTER_COLORS)) + 1]
       p <- p |> add_trace(r=r, theta=theta, name=paste0("Cluster ", cl),

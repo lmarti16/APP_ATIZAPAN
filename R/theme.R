@@ -307,15 +307,13 @@ h1,h2,h3,h4,h5,h6,p,label,span,div,li,td,th,
   background:rgba(255,255,255,.09) !important;
 }
 .selectize-control .selectize-input input{ color:#FFFFFF !important; }
-/* Ensure glass cards containing selectize don't clip dropdowns */
-.glass:has(.selectize-control){ overflow:visible !important; }
 .selectize-dropdown{
   background:rgba(8,10,16,.97) !important;
   border:1px solid rgba(255,255,255,.12) !important;
   border-radius:var(--radius-sm) !important;
   backdrop-filter:blur(20px);
   box-shadow:0 20px 60px rgba(0,0,0,.65) !important;
-  z-index:9999 !important;
+  z-index:99999 !important;
 }
 .selectize-dropdown .option{ color:#FFFFFF !important; padding:8px 12px; transition:.12s; }
 .selectize-dropdown .option:hover,
@@ -817,4 +815,28 @@ app_js <- HTML("
       });
     }, 300);
   });
+  // Move selectize dropdowns to body so they escape stacking contexts
+  // (backdrop-filter on .glass creates a stacking context that clips z-index)
+  $(document).one('shiny:idle', function(){
+    $('.selectize-control').each(function(){
+      var sel = this.selectize || $(this).find('select, input')[0];
+      if (sel && sel.selectize) {
+        sel.selectize.settings.dropdownParent = 'body';
+        sel.selectize.$dropdown.appendTo('body');
+      }
+    });
+  });
+  // Handle dynamically created selectize inputs
+  new MutationObserver(function(mutations){
+    mutations.forEach(function(m){
+      $(m.addedNodes).find('.selectize-control').addBack('.selectize-control').each(function(){
+        var $inp = $(this).find('select, input').first()[0];
+        if ($inp && $inp.selectize && !$inp.selectize._dropdownMoved) {
+          $inp.selectize.settings.dropdownParent = 'body';
+          $inp.selectize.$dropdown.appendTo('body');
+          $inp.selectize._dropdownMoved = true;
+        }
+      });
+    });
+  }).observe(document.body, {childList:true, subtree:true});
 ")

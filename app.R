@@ -160,7 +160,7 @@ ui_base <- bslib::page_fillable(
                 conditionalPanel(
                   condition = "input.map_view == 'winner'",
                   radioButtons("winner_vote_type","Tipo de voto",
-                               choices=list("DISTRIBUIDO"="DISTRIBUIDO","PURO"="PURO","CANDIDATURAS"="CAND"),
+                               choices=list("Distribuido"="DISTRIBUIDO","Puro"="PURO","Candidaturas"="CAND"),
                                selected="DISTRIBUIDO", inline=TRUE)
                 ),
                 conditionalPanel(
@@ -178,7 +178,7 @@ ui_base <- bslib::page_fillable(
               conditionalPanel(
                 condition = "input.map_variable",
                 radioButtons("choro_vote_type","Votos (choropleth)",
-                             choices=list("DISTRIBUIDO"="DISTRIBUIDO","PURO"="PURO"),
+                             choices=list("Distribuido"="DISTRIBUIDO","Puro"="PURO"),
                              selected="DISTRIBUIDO", inline=TRUE),
                 uiOutput("ui_choro_party"),
                 radioButtons("choro_metric","M\u00e9trica",

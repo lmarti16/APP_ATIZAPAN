@@ -51,7 +51,7 @@ explorar_ui <- function() {
                 div(class="card-hd-right",
                     div(class="seg-control",
                         radioButtons("table_view",NULL,
-                                     choices=list("DISTRIBUIDO"="DISTRIBUIDO","PURO"="PURO","CAND"="CAND"),
+                                     choices=list("Distribuido"="DISTRIBUIDO","Puro"="PURO","Candidaturas"="CAND"),
                                      selected="DISTRIBUIDO", inline=TRUE)
                     )
                 )
@@ -140,16 +140,25 @@ explorar_server <- function(input, output, session, has_applied, applied, df_app
   output$map_subtitle <- renderUI({
     if (!has_applied()) return(div(class="subtitle-badge","\u23f8\ufe0f Presiona GENERAR"))
     ap  <- applied()
+    vt_lbl <- switch(ap$winner_vote_type %||% "DISTRIBUIDO",
+                     DISTRIBUIDO="Distribuido", PURO="Puro", CAND="Candidaturas", ap$winner_vote_type)
+    elec_lbl <- key_label(ap$election)
     txt <- if (isTRUE(ap$map_variable)) {
-      paste0("Choropleth \u00b7 ",ap$choro_vote_type," \u00b7 ",ap$choro_party," \u00b7 ",ap$election)
+      cvt <- switch(ap$choro_vote_type %||% "DISTRIBUIDO", DISTRIBUIDO="Distribuido", PURO="Puro", ap$choro_vote_type)
+      paste0("Choropleth \u00b7 ",cvt," \u00b7 ",ap$choro_party," \u00b7 ",elec_lbl)
     } else {
       switch(ap$map_view %||% "winner",
-             winner   = paste0("Ganador (",ap$winner_vote_type,") \u00b7 ",ap$election),
-             part     = paste0("Participaci\u00f3n (%) \u00b7 ",ap$election),
-             tot      = paste0("Total votos \u00b7 ",ap$election),
-             ln       = paste0("Lista nominal \u00b7 ",ap$election),
-             electorado = paste0("Electorado \u00b7 ",ap$electorado_var),
-             ap$election)
+             winner     = paste0("Ganador (",vt_lbl,") \u00b7 ",elec_lbl),
+             part       = paste0("Participaci\u00f3n (%) \u00b7 ",elec_lbl),
+             tot        = paste0("Total votos \u00b7 ",elec_lbl),
+             ln         = paste0("Lista nominal \u00b7 ",elec_lbl),
+             electorado = {
+               ev <- ap$electorado_var %||% ""
+               ev_lbl <- names(which(vapply(ELECTORADO_CATALOG, function(z) z$col == ev, logical(1))))
+               if (length(ev_lbl) == 0L) ev_lbl <- ev
+               paste0("Electorado: ",ev_lbl," \u00b7 ",elec_lbl)
+             },
+             elec_lbl)
     }
     div(class="subtitle-badge", "\U0001F5FA\uFE0F ", txt)
   })
@@ -157,7 +166,7 @@ explorar_server <- function(input, output, session, has_applied, applied, df_app
   output$bar_subtitle <- renderUI({
     if (!has_applied()) return(div(class="subtitle-badge","\u23f8\ufe0f Presiona GENERAR"))
     div(class="subtitle-badge",
-        "\U0001F4CA ", paste0("Suma en selecci\u00f3n aplicada \u00b7 ", applied()$election))
+        "\U0001F4CA ", paste0("Suma en selecci\u00f3n aplicada \u00b7 ", key_label(applied()$election)))
   })
 
   # ---- MAPA EXPLORAR ----

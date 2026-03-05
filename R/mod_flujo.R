@@ -20,7 +20,7 @@ flujo_ui <- function() {
               selectInput("flujo_from", "Elecci\u00f3n origen", choices=NULL),
               selectInput("flujo_to",   "Elecci\u00f3n destino", choices=NULL),
               radioButtons("flujo_vote_type", "Tipo de voto",
-                           choices=list("DISTRIBUIDO"="DISTRIBUIDO","PURO"="PURO"),
+                           choices=list("Distribuido"="DISTRIBUIDO","Puro"="PURO"),
                            selected="DISTRIBUIDO", inline=TRUE)
             ),
             div(style="text-align:right;",

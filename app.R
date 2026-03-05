@@ -320,6 +320,28 @@ server <- function(input, output, session) {
     showNotification("Generado \u2705", type="message", duration=1.2)
   }, ignoreInit=TRUE)
 
+  # Auto-apply defaults on startup so all tabs activate immediately
+  observe({
+    ap <- list(
+      election        = DEFAULT_ELECTION,
+      winner_vote_type= "DISTRIBUIDO",
+      map_variable    = FALSE,
+      map_view        = "winner",
+      choro_vote_type = "DISTRIBUIDO",
+      choro_party     = "",
+      choro_metric    = "pct",
+      choro_scale     = "linear",
+      choro_opacity   = 0.65,
+      electorado_var  = ELECTORADO_CHOICES[[1L]] %||% "LISTA_NOMINAL",
+      electorado_scale= "linear",
+      electorado_opacity= 0.70,
+      dl_sel          = character(0),
+      secciones       = character(0),
+      ts              = Sys.time()
+    )
+    applied(ap)
+  })
+
   has_applied <- reactive({ ap <- applied(); !is.null(ap) && !is.null(ap$ts) })
 
   # ---- Status ----

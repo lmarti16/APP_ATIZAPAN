@@ -53,7 +53,7 @@ competitividad_ui <- function() {
                     div(class="card-hd-icon", "\U0001F3AF"),
                     div(class="card-hd-text",
                         div(class="t", "Clasificaci\u00f3n de secciones"),
-                        div(class="s", "Battleground / Competitiva / Safe")
+                        div(class="s", "Zona de batalla / Competitiva / Segura")
                     )
                 ),
                 plotlyOutput("comp_class_pie", height="240px")
@@ -99,8 +99,8 @@ competitividad_server <- function(input, output, session, has_applied, applied, 
     margin_pct <- ifelse(row_tot > 0, margin_abs / row_tot, NA_real_)
 
     # Classification
-    class_lbl <- ifelse(margin_pct < 0.05, "Battleground",
-                        ifelse(margin_pct < 0.15, "Competitiva", "Safe"))
+    class_lbl <- ifelse(margin_pct < 0.05, "Zona de batalla",
+                        ifelse(margin_pct < 0.15, "Competitiva", "Segura"))
     class_lbl[!is.finite(margin_pct)] <- NA_character_
 
     list(df=df, margin_abs=margin_abs, margin_pct=margin_pct,
@@ -122,13 +122,13 @@ competitividad_server <- function(input, output, session, has_applied, applied, 
   })
 
   output$comp_kpi_battle <- renderUI({
-    if (!has_applied()) return(kpi_placeholder("Battleground"))
+    if (!has_applied()) return(kpi_placeholder("Zona de batalla"))
     d <- comp_data()
-    n_bat <- sum(d$class == "Battleground", na.rm=TRUE)
+    n_bat <- sum(d$class == "Zona de batalla", na.rm=TRUE)
     n_tot <- sum(!is.na(d$class))
     bar_w <- if (n_tot > 0) paste0(min(100*n_bat/n_tot, 100), "%") else "0%"
     tagList(
-      div(class="t", "Battleground (<5pp)"),
+      div(class="t", "Zona de batalla (<5pp)"),
       div(class="v", style="color:#D50000;", fmt_int(n_bat)),
       div(class="s", HTML(paste0(formatC(100*n_bat/max(n_tot,1), format="f", digits=1), "% del total"))),
       div(class="kpi-bar-track", div(class="kpi-bar-fill", style=paste0("width:", bar_w, ";background:#D50000;")))
@@ -136,13 +136,13 @@ competitividad_server <- function(input, output, session, has_applied, applied, 
   })
 
   output$comp_kpi_safe <- renderUI({
-    if (!has_applied()) return(kpi_placeholder("Safe"))
+    if (!has_applied()) return(kpi_placeholder("Segura"))
     d <- comp_data()
-    n_safe <- sum(d$class == "Safe", na.rm=TRUE)
+    n_safe <- sum(d$class == "Segura", na.rm=TRUE)
     n_tot <- sum(!is.na(d$class))
     bar_w <- if (n_tot > 0) paste0(min(100*n_safe/n_tot, 100), "%") else "0%"
     tagList(
-      div(class="t", "Safe (>15pp)"),
+      div(class="t", "Segura (>15pp)"),
       div(class="v", style="color:#2EAD4A;", fmt_int(n_safe)),
       div(class="s", HTML(paste0(formatC(100*n_safe/max(n_tot,1), format="f", digits=1), "% del total"))),
       div(class="kpi-bar-track", div(class="kpi-bar-fill", style=paste0("width:", bar_w, ";background:#2EAD4A;")))
@@ -250,7 +250,7 @@ competitividad_server <- function(input, output, session, has_applied, applied, 
     d <- comp_data()
     cls <- d$class[!is.na(d$class)]
     validate(need(length(cls) > 0, "Sin datos"))
-    tbl <- table(factor(cls, levels=c("Battleground","Competitiva","Safe")))
+    tbl <- table(factor(cls, levels=c("Zona de batalla","Competitiva","Segura")))
     cols <- c("#D50000", "#FFD200", "#2EAD4A")
     plot_ly(labels=names(tbl), values=as.numeric(tbl), type="pie", hole=0.55,
             marker=list(colors=cols, line=list(color="rgba(255,255,255,.12)", width=1)),

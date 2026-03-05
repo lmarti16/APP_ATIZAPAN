@@ -224,9 +224,10 @@ correlacion_server <- function(input, output, session, has_applied, applied, df_
     }
 
     if (isTRUE(input$cor_trend)) {
-      fit <- lm(d$y[valid] ~ d$x[valid])
-      x_seq <- seq(min(d$x[valid], na.rm=TRUE), max(d$x[valid], na.rm=TRUE), length.out=50)
-      y_pred <- predict(fit, newdata=data.frame(`d$x[valid]`=x_seq))
+      xv <- d$x[valid]; yv <- d$y[valid]
+      fit <- lm(yv ~ xv)
+      x_seq <- seq(min(xv, na.rm=TRUE), max(xv, na.rm=TRUE), length.out=50)
+      y_pred <- predict(fit, newdata=data.frame(xv=x_seq))
       p <- p |> add_trace(x=x_seq, y=y_pred, type="scatter", mode="lines",
                           line=list(color="rgba(255,255,255,.50)", width=2, dash="dash"),
                           showlegend=FALSE, hoverinfo="skip")

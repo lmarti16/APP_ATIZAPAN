@@ -313,6 +313,7 @@ h1,h2,h3,h4,h5,h6,p,label,span,div,li,td,th,
   border-radius:var(--radius-sm) !important;
   backdrop-filter:blur(20px);
   box-shadow:0 20px 60px rgba(0,0,0,.65) !important;
+  z-index:9999 !important;
 }
 .selectize-dropdown .option{ color:#FFFFFF !important; padding:8px 12px; transition:.12s; }
 .selectize-dropdown .option:hover,

@@ -23,7 +23,7 @@ sf::sf_use_s2(FALSE)
 # Shiny auto-sources files in R/ when using runApp(),
 # but we source explicitly for compatibility with shiny::shinyApp()
 for (f in sort(list.files("R", pattern = "\\.R$", full.names = TRUE))) {
-  source(f, local = TRUE)
+  source(f, local = FALSE)
 }
 
 # ==========================================================

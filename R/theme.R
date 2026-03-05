@@ -2,7 +2,7 @@
 # THEME + CSS
 # ==========================================================
 
-app_theme <- bs_theme(
+app_theme <-  bslib::bs_theme(
   bootswatch = "darkly",
   primary    = ACCENT,
   base_font  = "system-ui",
